@@ -1,120 +1,323 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Zambak Animasyonu</title>
-<style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background: #0b1d14;
-    }
-
-    canvas {
-        display: block;
-    }
-
-    .text {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 64px;
-        font-family: serif;
-        color: #f5f5f5;
-        pointer-events: none;
-    }
-</style>
-</head>
-<body>
-
-<div class="text">ZAMBAK</div>
-<canvas id="canvas"></canvas>
-
-<script>
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-window.addEventListener("resize", () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
-
-const flowers = [];
-const flowerCount = 120; // ÇİÇEK SAYISI ↑
-
-function random(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
-// ÜST ÜSTE GELMEYİ ENGELLE
-function isTooClose(x, y) {
-    return flowers.some(f => {
-        const dx = f.x - x;
-        const dy = f.y - y;
-        return Math.sqrt(dx * dx + dy * dy) < 60;
-    });
-}
-
-// ZAMBAK ÇİZİMİ
-function drawLily(x, y, size, angle) {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(angle);
-
-    ctx.beginPath();
-    for (let i = 0; i < 6; i++) {
-        ctx.rotate(Math.PI / 3);
-        ctx.moveTo(0, 0);
-        ctx.quadraticCurveTo(size * 0.2, size * 0.5, 0, size);
-    }
-
-    ctx.fillStyle = "rgba(255,255,255,0.85)";
-    ctx.fill();
-    ctx.restore();
-}
-
-// ÇİÇEK OLUŞTUR
-while (flowers.length < flowerCount) {
-    const x = random(0, canvas.width);
-    const y = random(0, canvas.height);
-
-    if (!isTooClose(x, y)) {
-        flowers.push({
-            x,
-            y,
-            size: random(12, 26),
-            speed: random(0.2, 0.6),
-            wave: random(0, Math.PI * 2),
-            rotation: random(-0.01, 0.01)
-        });
-    }
-}
-
-// ANİMASYON
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    flowers.forEach(f => {
-        f.wave += 0.01;
-        f.y -= f.speed;
-        f.x += Math.sin(f.wave) * 0.4; // ORGANİK DALGALANMA
-
-        if (f.y < -50) {
-            f.y = canvas.height + 50;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waving Flowers Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        drawLily(f.x, f.y, f.size, f.wave * 0.3);
-    });
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            font-family: 'Georgia', serif;
+        }
 
-    requestAnimationFrame(animate);
-}
+        .flower-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
 
-animate();
-</script>
+        .flower {
+            position: absolute;
+            animation: wave 4s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        .flower:nth-child(odd) {
+            animation-duration: 3.5s;
+            animation-delay: -1s;
+        }
+
+        .flower:nth-child(3n) {
+            animation-duration: 4.5s;
+            animation-delay: -2s;
+        }
+
+        .flower:nth-child(4n) {
+            animation-duration: 3.8s;
+            animation-delay: -0.5s;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: rotate(-8deg) translateY(0);
+            }
+            25% {
+                transform: rotate(8deg) translateY(-3px);
+            }
+            50% {
+                transform: rotate(-6deg) translateY(-5px);
+            }
+            75% {
+                transform: rotate(6deg) translateY(-2px);
+            }
+        }
+
+        .lily {
+            width: 60px;
+            height: 80px;
+            position: relative;
+        }
+
+        .lily-petal {
+            position: absolute;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            background: currentColor;
+            opacity: 0.9;
+        }
+
+        .lily-petal:nth-child(1) {
+            width: 35px;
+            height: 45px;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .lily-petal:nth-child(2) {
+            width: 30px;
+            height: 40px;
+            top: 8px;
+            left: 5px;
+            transform: rotate(-45deg);
+        }
+
+        .lily-petal:nth-child(3) {
+            width: 30px;
+            height: 40px;
+            top: 8px;
+            right: 5px;
+            transform: rotate(45deg);
+        }
+
+        .lily-petal:nth-child(4) {
+            width: 28px;
+            height: 38px;
+            top: 20px;
+            left: 2px;
+            transform: rotate(-70deg);
+        }
+
+        .lily-petal:nth-child(5) {
+            width: 28px;
+            height: 38px;
+            top: 20px;
+            right: 2px;
+            transform: rotate(70deg);
+        }
+
+        .lily-center {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .lily-stem {
+            position: absolute;
+            width: 3px;
+            height: 40px;
+            background: linear-gradient(to bottom, #2d5016, #1a3009);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .purple {
+            color: #9b59b6;
+        }
+
+        .navy {
+            color: #1a237e;
+        }
+
+        .pink {
+            color: #e91e63;
+        }
+
+        .text-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .text-line {
+            font-size: 3.5rem;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3),
+                         0 0 20px rgba(255, 255, 255, 0.2);
+            margin: 10px 0;
+            font-weight: 300;
+            letter-spacing: 2px;
+            animation: textGlow 3s ease-in-out infinite;
+        }
+
+        .text-line:nth-child(2) {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes textGlow {
+            0%, 100% {
+                opacity: 0.95;
+                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3),
+                             0 0 20px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.4),
+                             0 0 30px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .text-line {
+                font-size: 2rem;
+            }
+            
+            .lily {
+                width: 45px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="flower-container" id="flowerContainer"></div>
+    
+    <div class="text-container">
+        <div class="text-line">Herkes yeni yıla</div>
+        <div class="text-line">Seni yıllarıma</div>
+    </div>
+
+    <script>
+        const colors = ['purple', 'navy', 'pink'];
+        const flowerContainer = document.getElementById('flowerContainer');
+        const numFlowers = 25;
+        const placedFlowers = [];
+        const minDistance = 80;
+
+        function createLily(color) {
+            const flower = document.createElement('div');
+            flower.className = `flower ${color}`;
+            
+            const lily = document.createElement('div');
+            lily.className = 'lily';
+            
+            // Create petals
+            for (let i = 0; i < 5; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'lily-petal';
+                lily.appendChild(petal);
+            }
+            
+            // Create center
+            const center = document.createElement('div');
+            center.className = 'lily-center';
+            lily.appendChild(center);
+            
+            // Create stem
+            const stem = document.createElement('div');
+            stem.className = 'lily-stem';
+            lily.appendChild(stem);
+            
+            flower.appendChild(lily);
+            return flower;
+        }
+
+        function getRandomPosition() {
+            return {
+                x: Math.random() * (window.innerWidth - 100) + 50,
+                y: Math.random() * (window.innerHeight - 150) + 50
+            };
+        }
+
+        function checkOverlap(newPos, existingPositions) {
+            for (const pos of existingPositions) {
+                const distance = Math.sqrt(
+                    Math.pow(newPos.x - pos.x, 2) + Math.pow(newPos.y - pos.y, 2)
+                );
+                if (distance < minDistance) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function placeFlowers() {
+            let attempts = 0;
+            const maxAttempts = 1000;
+            
+            while (placedFlowers.length < numFlowers && attempts < maxAttempts) {
+                const position = getRandomPosition();
+                
+                // Avoid center area for text
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const distanceFromCenter = Math.sqrt(
+                    Math.pow(position.x - centerX, 2) + Math.pow(position.y - centerY, 2)
+                );
+                
+                if (distanceFromCenter < 200) {
+                    attempts++;
+                    continue;
+                }
+                
+                if (!checkOverlap(position, placedFlowers)) {
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const flower = createLily(color);
+                    
+                    flower.style.left = `${position.x}px`;
+                    flower.style.top = `${position.y}px`;
+                    
+                    // Random size variation
+                    const scale = 0.7 + Math.random() * 0.6;
+                    flower.style.transform = `scale(${scale})`;
+                    flower.style.transformOrigin = 'bottom center';
+                    
+                    // Random rotation
+                    const rotation = (Math.random() - 0.5) * 30;
+                    flower.style.transform += ` rotate(${rotation}deg)`;
+                    
+                    flowerContainer.appendChild(flower);
+                    placedFlowers.push(position);
+                }
+                
+                attempts++;
+            }
+        }
+
+        // Initial placement
+        placeFlowers();
+
+        // Handle window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                flowerContainer.innerHTML = '';
+                placedFlowers.length = 0;
+                placeFlowers();
+            }, 300);
+        });
+    </script>
 </body>
 </html>
