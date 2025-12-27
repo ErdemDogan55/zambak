@@ -1,101 +1,115 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Renkli Zambaklar</title>
-<style>
-body{
-  margin:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  background:linear-gradient(135deg,#fdfbff,#eef3ff);
-  overflow:hidden;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zambak</title>
 
-.container{
-  display:flex;
-  gap:60px;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Georgia", serif;
+    }
 
-.lily{
-  position:relative;
-  width:140px;
-  height:140px;
-  animation:sway 4s ease-in-out infinite;
-  filter:drop-shadow(0 0 12px rgba(0,0,0,0.15));
-}
+    body {
+      height: 100vh;
+      background:
+        linear-gradient(
+          rgba(40, 10, 60, 0.55),
+          rgba(10, 10, 40, 0.75)
+        ),
+        url("https://images.unsplash.com/photo-1564894809611-1742fc40ed80?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.lily:nth-child(2){ animation-delay:1s; }
-.lily:nth-child(3){ animation-delay:2s; }
+    /* Çiçek animasyonları */
+    .petal {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background-image: url("https://pngimg.com/uploads/lily/lily_PNG126.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.25;
+      animation: float 20s linear infinite;
+    }
 
-.petal{
-  position:absolute;
-  width:40px;
-  height:90px;
-  border-radius:50%;
-  top:20px;
-  left:50px;
-  transform-origin:bottom center;
-}
+    @keyframes float {
+      0% {
+        transform: translateY(110vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(-150vh) rotate(360deg);
+      }
+    }
 
-.petal:nth-child(1){transform:rotate(0deg);}
-.petal:nth-child(2){transform:rotate(60deg);}
-.petal:nth-child(3){transform:rotate(120deg);}
-.petal:nth-child(4){transform:rotate(180deg);}
-.petal:nth-child(5){transform:rotate(240deg);}
-.petal:nth-child(6){transform:rotate(300deg);}
+    /* Yazı alanı */
+    .text-box {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 40px 50px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 40px rgba(200, 150, 255, 0.35);
+      animation: fadeIn 3s ease;
+    }
 
-.center{
-  position:absolute;
-  width:22px;
-  height:22px;
-  background:gold;
-  border-radius:50%;
-  top:59px;
-  left:59px;
-  box-shadow:0 0 10px gold;
-}
+    .text-box h1 {
+      color: #f5e6ff;
+      font-size: 3rem;
+      font-weight: 400;
+      line-height: 1.4;
+      text-shadow:
+        0 0 10px rgba(255, 150, 200, 0.6),
+        0 0 20px rgba(150, 150, 255, 0.5);
+    }
 
-/* RENK TEMALARI */
-.blue .petal{
-  background:linear-gradient(#b3d9ff,#5fa8ff);
-}
-.purple .petal{
-  background:linear-gradient(#e0c3ff,#9b6bff);
-}
-.pink .petal{
-  background:linear-gradient(#ffd1e8,#ff6fb1);
-}
-
-@keyframes sway{
-  0%,100%{transform:rotate(-6deg);}
-  50%{transform:rotate(6deg);}
-}
-</style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="lily blue">
-    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
-    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
-    <div class="center"></div>
+  <!-- Ortadaki yazı -->
+  <div class="text-box">
+    <h1>
+      Herkes yeni yıla<br>
+      Sen yıllarıma
+    </h1>
   </div>
 
-  <div class="lily purple">
-    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
-    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
-    <div class="center"></div>
-  </div>
+  <!-- Arka plan çiçekleri -->
+  <script>
+    const colors = ["hue-rotate(0deg)", "hue-rotate(40deg)", "hue-rotate(80deg)"];
 
-  <div class="lily pink">
-    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
-    <div class="petal"></div><div class="petal"></div><div class="petal"></div>
-    <div class="center"></div>
-  </div>
-</div>
+    for (let i = 0; i < 25; i++) {
+      const petal = document.createElement("div");
+      petal.className = "petal";
+      petal.style.left = Math.random() * 100 + "vw";
+      petal.style.animationDuration = 15 + Math.random() * 20 + "s";
+      petal.style.filter = colors[Math.floor(Math.random() * colors.length)];
+      petal.style.transform = `scale(${0.6 + Math.random()})`;
+      document.body.appendChild(petal);
+    }
+  </script>
 
 </body>
 </html>
