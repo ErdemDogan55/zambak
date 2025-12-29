@@ -45,7 +45,7 @@ body {
     animation: moveFlower 5s infinite;
     width: 120px;
     height: 120px;
-    background-image: url('URL-OF-YOUR-NEW-FLOWER-IMAGE'); /* Yeni çiçek resminizin URL'si buraya gelecek */
+    background-image: url('https://github.com/ErdemDogan55/zambak/blob/main/png-transparent-flower-lilium-lily-lily-hippeastrum-plugin.png'); /* Yeni çiçek resminizin URL'si buraya gelecek */
     background-size: cover;
     opacity: 0.8;
 }
