@@ -3,7 +3,7 @@ let countdownValue = 10;
 const countdownElement = document.getElementById("countdown");
 const messageElement = document.getElementById("message");
 const backgroundMusic = document.getElementById("background-music");
-
+backgroundMusic.play();
 // Zambak çiçeklerini yerleştirme fonksiyonu
 function createFlower() {
     const flower = document.createElement("div");
@@ -37,10 +37,6 @@ function startCountdown() {
     }, 1000);
 }
 
-// Müzik 41. saniyeden sonra başlasın
-setTimeout(() => {
-    backgroundMusic.play();
-}, 41000);
 
 // Geri sayımı başlat
 startCountdown();
