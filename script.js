@@ -3,7 +3,7 @@ let countdownValue = 10;
 const countdownElement = document.getElementById("countdown");
 const messageElement = document.getElementById("message");
 const backgroundMusic = document.getElementById("background-music");
-
+backgroundMusic.src = 'https://github.com/ErdemDogan55/zambak/blob/main/Yeni%20proje.mp3';
 // Zambak çiçeklerini yerleştirme fonksiyonu
 function createFlower() {
     const flower = document.createElement("div");
