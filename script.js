@@ -23,6 +23,7 @@ function startCountdown() {
     let countdownInterval = setInterval(function () {
         countdownElement.innerText = countdownValue;
         if (countdownValue === 0) {
+             countdownElement.innerText = "";
             clearInterval(countdownInterval);
             setTimeout(() => {
                 messageElement.innerText = "HERKES YENİ YILA";
@@ -33,10 +34,11 @@ function startCountdown() {
                 }, 3000);
             }, 1000);
         }
+    if (countdownValue <= 0) {
+            clearInterval(countdownInterval); // Geri sayım durdurulacak
+        }
         countdownValue--;
     }, 1000);
 }
-
-
 // Geri sayımı başlat
 startCountdown();
