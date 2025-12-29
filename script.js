@@ -8,13 +8,15 @@ const backgroundMusic = document.getElementById("background-music");
 function createFlower() {
     const flower = document.createElement("div");
     flower.classList.add("flower");
-    flower.style.top = `${Math.random() * 100}vh`;
-    flower.style.left = `${Math.random() * 100}vw`;
+    flower.style.top = `${Math.random() * 100}vh`;  // Yüksekliği rastgele
+    flower.style.left = `${Math.random() * 100}vw`; // Yatayda rastgele
     document.getElementById("flowers-container").appendChild(flower);
 }
 
-// Çiçekleri her 2 saniyede bir yarat
-setInterval(createFlower, 2000);
+// Çiçekleri baştan her yerde yerleştirelim (500 tane çiçek)
+for (let i = 0; i < 500; i++) {
+    createFlower();
+}
 
 // Geri sayım başlatma
 function startCountdown() {
@@ -42,3 +44,4 @@ setTimeout(() => {
 
 // Geri sayımı başlat
 startCountdown();
+
